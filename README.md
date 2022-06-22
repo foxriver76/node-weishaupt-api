@@ -11,3 +11,8 @@ Weishaupt GmbH, or any associated subsidiaries, logos or trademarks.
 
 ## Installation
 ```npm install weisshaupt-api --production```
+
+## Changelog
+
+### 0.0.1
+* (foxriver76) initial release

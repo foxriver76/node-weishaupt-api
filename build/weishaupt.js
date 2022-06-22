@@ -1,46 +1,15 @@
-import axios from 'axios';
-import { Command, Info, Protocol, Type } from './constants';
-
-interface WeishauptOptions {
-    url: string;
-}
-
-type Telegram = [
-    Modultyp: number,
-    Buskennung: number,
-    Command: number,
-    InfoNr: number,
-    Index: number,
-    Protocol: number,
-    data: number,
-    unknown: number
-][];
-
-interface TelegramObject {
-    MODULTYP: number;
-    BUSKENNUNG: number;
-    COMMAND: number;
-    INFONR: number;
-    INDEX: number;
-    PROT: number;
-    DATA: number;
-    UNKNOWN: number;
-}
-
-interface FinalTelegramObject extends TelegramObject {
-    COMMAND: Command;
-    PROTOCOL: Protocol;
-    INFONR: Info;
-}
-
-export class Weishaupt {
-    /** URL of the API */
-    private readonly url: string;
-
-    constructor(options: WeishauptOptions) {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Weishaupt = void 0;
+const axios_1 = __importDefault(require("axios"));
+const constants_1 = require("./constants");
+class Weishaupt {
+    constructor(options) {
         this.url = options.url;
     }
-
     async getHomeParameters() {
         const body = {
             prot: 'coco',
@@ -52,16 +21,12 @@ export class Weishaupt {
                 [0, 0, 1, 5066, 0, 0, 0, 0]
             ]
         };
-
-        const res = await axios.post(`${this.url}/parameter.json`, body);
-
+        const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
         if (res.status !== 200) {
             throw new Error(res.data);
         }
-
         return this._decodeTelegram(res.data.telegramm);
     }
-
     async getWTCGProcessParameters() {
         const body = {
             prot: 'coco',
@@ -75,70 +40,61 @@ export class Weishaupt {
                 [10, 0, 1, 14, 0, 0, 0, 0]
             ]
         };
-
-        const res = await axios.post(`${this.url}/parameter.json`, body);
-
+        const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
         if (res.status !== 200) {
             throw new Error(res.data);
         }
-
         return this._decodeTelegram(res.data.telegramm);
     }
-
     /**
      * Decodes a Telegram given from API
      * @param telegram telegram as given as response from API
      */
-    private _decodeTelegram(telegram: Telegram): TelegramObject[] {
-        const response: TelegramObject[] = [];
-
+    _decodeTelegram(telegram) {
+        const response = [];
         for (const telegramEntry of telegram) {
-            const respObj: Partial<TelegramObject> = {};
+            const respObj = {};
             for (const i in telegramEntry) {
-                const attributeName = Type[i];
+                const attributeName = constants_1.Type[i];
                 // @ts-expect-error fix it
                 respObj[attributeName] = telegramEntry[i];
             }
-            response.push(respObj as TelegramObject);
+            response.push(respObj);
         }
-
         return this._decodeTelegramValues(response);
     }
-
-    private _decodeTelegramValues(telegramObjects: TelegramObject[]): FinalTelegramObject[] {
-        const finalTelegramObjects: FinalTelegramObject[] = [];
+    _decodeTelegramValues(telegramObjects) {
+        const finalTelegramObjects = [];
         for (const telegramObject of telegramObjects) {
-            const finalTelegramObj: Partial<FinalTelegramObject> = {};
-
-            finalTelegramObj.COMMAND = Command[telegramObject.COMMAND] as any;
+            const finalTelegramObj = {};
+            finalTelegramObj.COMMAND = constants_1.Command[telegramObject.COMMAND];
             finalTelegramObj.MODULTYP = telegramObject.COMMAND;
             finalTelegramObj.DATA = this._convertData(telegramObject);
             finalTelegramObj.BUSKENNUNG = telegramObject.BUSKENNUNG;
-            finalTelegramObj.PROT = Protocol[telegramObject.PROT] as any;
+            finalTelegramObj.PROT = constants_1.Protocol[telegramObject.PROT];
             finalTelegramObj.INDEX = telegramObject.INDEX;
-            finalTelegramObj.INFONR = (Info[telegramObject.INFONR] as any) || telegramObject.INFONR;
+            finalTelegramObj.INFONR = constants_1.Info[telegramObject.INFONR] || telegramObject.INFONR;
             finalTelegramObj.UNKNOWN = telegramObject.UNKNOWN;
-
-            finalTelegramObjects.push(finalTelegramObj as FinalTelegramObject);
+            finalTelegramObjects.push(finalTelegramObj);
         }
-
         return finalTelegramObjects;
     }
-
-    private _convertData(telegramObject: TelegramObject): number {
+    _convertData(telegramObject) {
         switch (telegramObject.INFONR) {
-            case Info.Wärmeanforderung:
-            case Info.Außentemperatur:
+            case constants_1.Info.Wärmeanforderung:
+            case constants_1.Info.Außentemperatur:
                 return telegramObject.DATA / 10;
-            case Info.Vorlauftemperatur:
+            case constants_1.Info.Vorlauftemperatur:
                 console.log(telegramObject.DATA);
                 return telegramObject.DATA + 13;
-            case Info.Fehlercode:
-            case Info.Password:
-            case Info.StartsiteFooter:
+            case constants_1.Info.Fehlercode:
+            case constants_1.Info.Password:
+            case constants_1.Info.StartsiteFooter:
                 return telegramObject.DATA;
             default:
                 throw new Error(`Unknown Info: ${telegramObject.INFONR}`);
         }
     }
 }
+exports.Weishaupt = Weishaupt;
+//# sourceMappingURL=weishaupt.js.map
