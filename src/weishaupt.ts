@@ -134,7 +134,7 @@ export class Weishaupt {
             case Info.Warmwassertemperatur:
             case Info.Abgastemperatur:
             case Info.Vorlauftemperatur:
-                const test = this._getValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                const test = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return test / 10;
             case Info.Fehlercode:
             case Info.Password:
@@ -152,7 +152,7 @@ export class Weishaupt {
      * @param lowByte
      * @param highByte
      */
-    _getValue(lowByte: number, highByte: number) {
+    private _extractValue(lowByte: number, highByte: number) {
         let usValue;
 
         if (highByte <= 127) {

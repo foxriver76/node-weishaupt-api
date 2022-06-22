@@ -1,7 +1,7 @@
 # Node-Weishaupt-API
 [![NPM version](http://img.shields.io/npm/v/weishaupt-api.svg)](https://www.npmjs.com/package/bring-shopping)
 [![Downloads](https://img.shields.io/npm/dm/weishaupt-api.svg)](https://www.npmjs.com/package/bring-shopping)
-![Build Status](https://github.com/foxriver76/weishaupt-api/workflows/Test%20and%20Release/badge.svg)
+![Build Status](https://github.com/foxriver76/node-weishaupt-api/workflows/Test%20and%20Release/badge.svg)
 
 A node module for the local Weishaupt API entirely written in TypeScript.
 
@@ -11,6 +11,25 @@ Weishaupt GmbH, or any associated subsidiaries, logos or trademarks.
 
 ## Installation
 ```npm install weisshaupt-api --production```
+
+## Example
+
+```typescript
+import { Weishaupt } from 'weishaupt-api';
+
+const api = new Weishaupt({ url: 'http://192.168.144.162' });
+
+(async () => {
+    const res = await api.getHomeParameters();
+    console.log(res);
+
+    console.log('----------------------');
+
+    const res2 = await api.getWTCGProcessParameters();
+    console.log(res2);
+})();
+
+```
 
 ## Changelog
 

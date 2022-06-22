@@ -30,6 +30,6 @@ export declare class Weishaupt {
      * @param lowByte
      * @param highByte
      */
-    _getValue(lowByte: number, highByte: number): number;
+    private _extractValue;
 }
 export {};
