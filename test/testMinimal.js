@@ -10,12 +10,16 @@ describe('No API running', () => {
     });
 
     it('should fail in under 2000 ms', async () => {
+        let success = false;
         try {
             await weishauptApi.getHomeParameters();
-        } catch (e) {
-            if (!e.message.includes('ECONNREFUSED')) {
-                throw new Error(`Wrong rejection message: ${e.message}`);
-            }
+            success = true;
+        } catch {
+            // all good
+        }
+
+        if (success) {
+            throw new Error('Request has not failed on non-running API');
         }
     });
 });
