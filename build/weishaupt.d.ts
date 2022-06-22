@@ -9,7 +9,7 @@ interface TelegramObject {
     INDEX: number;
     PROT: number;
     DATA: number;
-    UNKNOWN: number;
+    HIGH_BYTE: number;
 }
 export declare class Weishaupt {
     /** URL of the API */
@@ -24,5 +24,12 @@ export declare class Weishaupt {
     private _decodeTelegram;
     private _decodeTelegramValues;
     private _convertData;
+    /**
+     * Calculate the Value from the low byte and high byte
+     *
+     * @param lowByte
+     * @param highByte
+     */
+    _getValue(lowByte: number, highByte: number): number;
 }
 export {};

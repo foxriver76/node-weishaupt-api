@@ -6,7 +6,7 @@ export declare enum Type {
     INDEX = 4,
     PROT = 5,
     DATA = 6,
-    UNKNOWN = 7
+    HIGH_BYTE = 7
 }
 export declare enum Command {
     READ = 1,
@@ -24,8 +24,18 @@ export declare enum Info {
     Wärmeanforderung = 2,
     /** Divide by 10 */
     Außentemperatur = 12,
-    /** We need to calculate data + 13 */
+    /** We need to calculate: 4 is 26 and 14 is 27, 24 is 28 */
     Vorlauftemperatur = 13,
+    /** Divide by 10 */
+    Warmwassertemperatur = 14,
+    /** As it is, it is percent */
+    Laststellung = 138,
+    /** Divide by 10 */
+    Abgastemperatur = 325,
+    /** Divide by 10 */
+    GedaempfteAussentemperatur = 2572,
+    /** Divide by 10 */
+    VorlauftemperaturEstb = 3101,
     StartsiteFooter = 5066,
     Password = 5056
 }

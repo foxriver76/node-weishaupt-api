@@ -10,7 +10,7 @@ var Type;
     Type[Type["INDEX"] = 4] = "INDEX";
     Type[Type["PROT"] = 5] = "PROT";
     Type[Type["DATA"] = 6] = "DATA";
-    Type[Type["UNKNOWN"] = 7] = "UNKNOWN";
+    Type[Type["HIGH_BYTE"] = 7] = "HIGH_BYTE";
 })(Type = exports.Type || (exports.Type = {}));
 var Command;
 (function (Command) {
@@ -31,8 +31,18 @@ var Info;
     Info[Info["W\u00E4rmeanforderung"] = 2] = "W\u00E4rmeanforderung";
     /** Divide by 10 */
     Info[Info["Au\u00DFentemperatur"] = 12] = "Au\u00DFentemperatur";
-    /** We need to calculate data + 13 */
+    /** We need to calculate: 4 is 26 and 14 is 27, 24 is 28 */
     Info[Info["Vorlauftemperatur"] = 13] = "Vorlauftemperatur";
+    /** Divide by 10 */
+    Info[Info["Warmwassertemperatur"] = 14] = "Warmwassertemperatur";
+    /** As it is, it is percent */
+    Info[Info["Laststellung"] = 138] = "Laststellung";
+    /** Divide by 10 */
+    Info[Info["Abgastemperatur"] = 325] = "Abgastemperatur";
+    /** Divide by 10 */
+    Info[Info["GedaempfteAussentemperatur"] = 2572] = "GedaempfteAussentemperatur";
+    /** Divide by 10 */
+    Info[Info["VorlauftemperaturEstb"] = 3101] = "VorlauftemperaturEstb";
     Info[Info["StartsiteFooter"] = 5066] = "StartsiteFooter";
     Info[Info["Password"] = 5056] = "Password";
 })(Info = exports.Info || (exports.Info = {}));

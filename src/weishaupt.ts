@@ -24,7 +24,7 @@ interface TelegramObject {
     INDEX: number;
     PROT: number;
     DATA: number;
-    UNKNOWN: number;
+    HIGH_BYTE: number;
 }
 
 interface FinalTelegramObject extends TelegramObject {
@@ -117,7 +117,7 @@ export class Weishaupt {
             finalTelegramObj.PROT = Protocol[telegramObject.PROT] as any;
             finalTelegramObj.INDEX = telegramObject.INDEX;
             finalTelegramObj.INFONR = (Info[telegramObject.INFONR] as any) || telegramObject.INFONR;
-            finalTelegramObj.UNKNOWN = telegramObject.UNKNOWN;
+            finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
 
             finalTelegramObjects.push(finalTelegramObj as FinalTelegramObject);
         }
@@ -127,18 +127,41 @@ export class Weishaupt {
 
     private _convertData(telegramObject: TelegramObject): number {
         switch (telegramObject.INFONR) {
+            case Info.VorlauftemperaturEstb:
+            case Info.GedaempfteAussentemperatur:
             case Info.Wärmeanforderung:
             case Info.Außentemperatur:
-                return telegramObject.DATA / 10;
+            case Info.Warmwassertemperatur:
+            case Info.Abgastemperatur:
             case Info.Vorlauftemperatur:
-                console.log(telegramObject.DATA);
-                return telegramObject.DATA + 13;
+                const test = this._getValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return test / 10;
             case Info.Fehlercode:
             case Info.Password:
             case Info.StartsiteFooter:
+            case Info.Laststellung:
                 return telegramObject.DATA;
             default:
                 throw new Error(`Unknown Info: ${telegramObject.INFONR}`);
         }
+    }
+
+    /**
+     * Calculate the Value from the low byte and high byte
+     *
+     * @param lowByte
+     * @param highByte
+     */
+    _getValue(lowByte: number, highByte: number) {
+        let usValue;
+
+        if (highByte <= 127) {
+            usValue = highByte * 256 + lowByte;
+        } else if (highByte === 128 && lowByte === 0) {
+            usValue = highByte * 256 + lowByte;
+        } else {
+            usValue = -32768 + (highByte - 128) * 256 + lowByte;
+        }
+        return usValue;
     }
 }

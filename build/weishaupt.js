@@ -74,26 +74,49 @@ class Weishaupt {
             finalTelegramObj.PROT = constants_1.Protocol[telegramObject.PROT];
             finalTelegramObj.INDEX = telegramObject.INDEX;
             finalTelegramObj.INFONR = constants_1.Info[telegramObject.INFONR] || telegramObject.INFONR;
-            finalTelegramObj.UNKNOWN = telegramObject.UNKNOWN;
+            finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
             finalTelegramObjects.push(finalTelegramObj);
         }
         return finalTelegramObjects;
     }
     _convertData(telegramObject) {
         switch (telegramObject.INFONR) {
+            case constants_1.Info.VorlauftemperaturEstb:
+            case constants_1.Info.GedaempfteAussentemperatur:
             case constants_1.Info.Wärmeanforderung:
             case constants_1.Info.Außentemperatur:
-                return telegramObject.DATA / 10;
+            case constants_1.Info.Warmwassertemperatur:
+            case constants_1.Info.Abgastemperatur:
             case constants_1.Info.Vorlauftemperatur:
-                console.log(telegramObject.DATA);
-                return telegramObject.DATA + 13;
+                const test = this._getValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return test / 10;
             case constants_1.Info.Fehlercode:
             case constants_1.Info.Password:
             case constants_1.Info.StartsiteFooter:
+            case constants_1.Info.Laststellung:
                 return telegramObject.DATA;
             default:
                 throw new Error(`Unknown Info: ${telegramObject.INFONR}`);
         }
+    }
+    /**
+     * Calculate the Value from the low byte and high byte
+     *
+     * @param lowByte
+     * @param highByte
+     */
+    _getValue(lowByte, highByte) {
+        let usValue;
+        if (highByte <= 127) {
+            usValue = highByte * 256 + lowByte;
+        }
+        else if (highByte === 128 && lowByte === 0) {
+            usValue = highByte * 256 + lowByte;
+        }
+        else {
+            usValue = -32768 + (highByte - 128) * 256 + lowByte;
+        }
+        return usValue;
     }
 }
 exports.Weishaupt = Weishaupt;
