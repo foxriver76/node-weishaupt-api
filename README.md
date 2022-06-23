@@ -1,6 +1,6 @@
 # Node-Weishaupt-API
-[![NPM version](http://img.shields.io/npm/v/weishaupt-api.svg)](https://www.npmjs.com/package/bring-shopping)
-[![Downloads](https://img.shields.io/npm/dm/weishaupt-api.svg)](https://www.npmjs.com/package/bring-shopping)
+[![NPM version](http://img.shields.io/npm/v/weishaupt-api.svg)](https://www.npmjs.com/package/weishaupt-api)
+[![Downloads](https://img.shields.io/npm/dm/weishaupt-api.svg)](https://www.npmjs.com/package/weishaupt-api)
 ![Build Status](https://github.com/foxriver76/node-weishaupt-api/workflows/Test%20and%20Release/badge.svg)
 
 A node module for the local Weishaupt WCM-COM 1.0 home API entirely written in TypeScript.
