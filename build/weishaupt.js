@@ -61,7 +61,7 @@ class Weishaupt {
             telegramm: [
                 [3, 0, 1, constants_1.Info.T1Kollektor, 0, 0, 0],
                 [3, 0, 1, constants_1.Info.Durchfluss, 0, 0, 0],
-                [3, 0, 1, constants_1.Info.Leistung, 0, 0, 0],
+                [3, 0, 1, constants_1.Info.LeistungSolar, 0, 0, 0],
                 [3, 0, 1, constants_1.Info.T2SolarUnten, 0, 0, 0],
                 [3, 0, 1, constants_1.Info.B10PufferOben, 0, 0, 0],
                 [3, 0, 1, constants_1.Info.B11PufferUnten, 0, 0, 0]
@@ -106,6 +106,10 @@ class Weishaupt {
             finalTelegramObj.INDEX = telegramObject.INDEX;
             finalTelegramObj.INFONR = constants_1.Info[telegramObject.INFONR] || telegramObject.INFONR;
             finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
+            if (finalTelegramObj.INFONR in constants_1.Unit) {
+                // @ts-expect-error we have ensured it is in
+                finalTelegramObj.UNIT = constants_1.Unit[finalTelegramObj.INFONR];
+            }
             finalTelegramObjects.push(finalTelegramObj);
         }
         return finalTelegramObjects;
@@ -131,7 +135,7 @@ class Weishaupt {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 10;
             }
-            case constants_1.Info.Leistung:
+            case constants_1.Info.LeistungSolar:
             case constants_1.Info.Durchfluss: {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 100;

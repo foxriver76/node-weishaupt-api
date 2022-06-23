@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Command, Info, Protocol, Type } from './constants';
+import { Command, Info, Protocol, Type, Unit } from './constants';
 
 interface WeishauptOptions {
     url: string;
@@ -31,6 +31,7 @@ interface FinalTelegramObject extends TelegramObject {
     COMMAND: Command;
     PROTOCOL: Protocol;
     INFONR: Info;
+    UNIT?: 'string';
 }
 
 export class Weishaupt {
@@ -100,7 +101,7 @@ export class Weishaupt {
             telegramm: [
                 [3, 0, 1, Info.T1Kollektor, 0, 0, 0],
                 [3, 0, 1, Info.Durchfluss, 0, 0, 0],
-                [3, 0, 1, Info.Leistung, 0, 0, 0],
+                [3, 0, 1, Info.LeistungSolar, 0, 0, 0],
                 [3, 0, 1, Info.T2SolarUnten, 0, 0, 0],
                 [3, 0, 1, Info.B10PufferOben, 0, 0, 0],
                 [3, 0, 1, Info.B11PufferUnten, 0, 0, 0]
@@ -154,6 +155,11 @@ export class Weishaupt {
             finalTelegramObj.INFONR = (Info[telegramObject.INFONR] as any) || telegramObject.INFONR;
             finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
 
+            if (finalTelegramObj.INFONR! in Unit) {
+                // @ts-expect-error we have ensured it is in
+                finalTelegramObj.UNIT = Unit[finalTelegramObj.INFONR!];
+            }
+
             finalTelegramObjects.push(finalTelegramObj as FinalTelegramObject);
         }
 
@@ -181,7 +187,7 @@ export class Weishaupt {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 10;
             }
-            case Info.Leistung:
+            case Info.LeistungSolar:
             case Info.Durchfluss: {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 100;

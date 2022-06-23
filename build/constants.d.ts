@@ -41,7 +41,7 @@ export declare enum Info {
     /** Take as it is */
     Betriebsphase = 373,
     /** Divide by 100 */
-    Leistung = 475,
+    LeistungSolar = 475,
     /** Divide by 10 */
     GedaempfteAussentemperatur = 2572,
     /** Divide by 10 */
@@ -52,4 +52,20 @@ export declare enum Info {
     VorlauftemperaturEstb = 3101,
     StartsiteFooter = 5066,
     Password = 5056
+}
+export declare enum Unit {
+    Waermeanforderung = "\u00B0C",
+    Aussentemperatur = "\u00B0C",
+    Vorlauftemperatur = "\u00B0C",
+    Warmwassertemperatur = "\u00B0C",
+    B10PufferOben = "\u00B0C",
+    B11PufferUnten = "\u00B0C",
+    Durchfluss = "l/min",
+    Laststellung = "%",
+    Abgastemperatur = "\u00B0C",
+    LeistungSolar = "W",
+    GedaempfteAussentemperatur = "\u00B0C",
+    T1Kollektor = "\u00B0C",
+    T2SolarUnten = "\u00B0C",
+    VorlauftemperaturEstb = "\u00B0C"
 }

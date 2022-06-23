@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Info = exports.Protocol = exports.Command = exports.Type = void 0;
+exports.Unit = exports.Info = exports.Protocol = exports.Command = exports.Type = void 0;
 var Type;
 (function (Type) {
     Type[Type["MODULTYP"] = 0] = "MODULTYP";
@@ -48,7 +48,7 @@ var Info;
     /** Take as it is */
     Info[Info["Betriebsphase"] = 373] = "Betriebsphase";
     /** Divide by 100 */
-    Info[Info["Leistung"] = 475] = "Leistung";
+    Info[Info["LeistungSolar"] = 475] = "LeistungSolar";
     /** Divide by 10 */
     Info[Info["GedaempfteAussentemperatur"] = 2572] = "GedaempfteAussentemperatur";
     /** Divide by 10 */
@@ -60,4 +60,21 @@ var Info;
     Info[Info["StartsiteFooter"] = 5066] = "StartsiteFooter";
     Info[Info["Password"] = 5056] = "Password";
 })(Info = exports.Info || (exports.Info = {}));
+var Unit;
+(function (Unit) {
+    Unit["Waermeanforderung"] = "\u00B0C";
+    Unit["Aussentemperatur"] = "\u00B0C";
+    Unit["Vorlauftemperatur"] = "\u00B0C";
+    Unit["Warmwassertemperatur"] = "\u00B0C";
+    Unit["B10PufferOben"] = "\u00B0C";
+    Unit["B11PufferUnten"] = "\u00B0C";
+    Unit["Durchfluss"] = "l/min";
+    Unit["Laststellung"] = "%";
+    Unit["Abgastemperatur"] = "\u00B0C";
+    Unit["LeistungSolar"] = "W";
+    Unit["GedaempfteAussentemperatur"] = "\u00B0C";
+    Unit["T1Kollektor"] = "\u00B0C";
+    Unit["T2SolarUnten"] = "\u00B0C";
+    Unit["VorlauftemperaturEstb"] = "\u00B0C";
+})(Unit = exports.Unit || (exports.Unit = {}));
 //# sourceMappingURL=constants.js.map
