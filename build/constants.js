@@ -35,6 +35,10 @@ var Info;
     Info[Info["Vorlauftemperatur"] = 13] = "Vorlauftemperatur";
     /** Divide by 10 */
     Info[Info["Warmwassertemperatur"] = 14] = "Warmwassertemperatur";
+    /** Divide by 10 */
+    Info[Info["B10PufferOben"] = 118] = "B10PufferOben";
+    /** Divide by 10 */
+    Info[Info["B11PufferUnten"] = 120] = "B11PufferUnten";
     /** Divide by 100 */
     Info[Info["Durchfluss"] = 130] = "Durchfluss";
     /** As it is, it is percent */
@@ -43,10 +47,14 @@ var Info;
     Info[Info["Abgastemperatur"] = 325] = "Abgastemperatur";
     /** Take as it is */
     Info[Info["Betriebsphase"] = 373] = "Betriebsphase";
+    /** Divide by 100 */
+    Info[Info["Leistung"] = 475] = "Leistung";
+    /** Divide by 10 */
+    Info[Info["GedaempfteAussentemperatur"] = 2572] = "GedaempfteAussentemperatur";
     /** Divide by 10 */
     Info[Info["T1Kollektor"] = 2601] = "T1Kollektor";
     /** Divide by 10 */
-    Info[Info["GedaempfteAussentemperatur"] = 2572] = "GedaempfteAussentemperatur";
+    Info[Info["T2SolarUnten"] = 2602] = "T2SolarUnten";
     /** Divide by 10 */
     Info[Info["VorlauftemperaturEstb"] = 3101] = "VorlauftemperaturEstb";
     Info[Info["StartsiteFooter"] = 5066] = "StartsiteFooter";

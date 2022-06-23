@@ -15,7 +15,7 @@
       "email": "moritz.heusinger@gmail.com"
     }
   ],
-  "homepage": "https://github.com/foxriver76/weisshaupt-api",
+  "homepage": "https://github.com/foxriver76/node-weishaupt-api",
   "license": "MIT",
   "keywords": [
     "weishaupt",
@@ -25,7 +25,7 @@
     "axios": "^0.27.2"
   },
   "devDependencies": {
-    "@types/node": "^17.0.21",
+    "@types/node": "^18.0.0",
     "@types/request-promise-native": "^1.0.18",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
@@ -33,7 +33,7 @@
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "mocha": "^9.2.1",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "typescript": "^4.6.2"
   },
