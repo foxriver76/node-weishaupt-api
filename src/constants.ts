@@ -31,6 +31,10 @@ export enum Info {
     Vorlauftemperatur = 13,
     /** Divide by 10 */
     Warmwassertemperatur = 14,
+    /** Divide by 10 */
+    B10PufferOben = 118,
+    /** Divide by 10 */
+    B11PufferUnten = 120,
     /** Divide by 100 */
     Durchfluss = 130,
     /** As it is, it is percent */
@@ -39,10 +43,14 @@ export enum Info {
     Abgastemperatur = 325,
     /** Take as it is */
     Betriebsphase = 373,
+    /** Divide by 100 */
+    Leistung = 475,
+    /** Divide by 10 */
+    GedaempfteAussentemperatur = 2572,
     /** Divide by 10 */
     T1Kollektor = 2601,
     /** Divide by 10 */
-    GedaempfteAussentemperatur = 2572,
+    T2SolarUnten = 2602,
     /** Divide by 10 */
     VorlauftemperaturEstb = 3101,
     StartsiteFooter = 5066,

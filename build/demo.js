@@ -12,4 +12,4 @@ const api = new weishaupt_1.Weishaupt({ url: 'http://192.168.44.62' });
     const res3 = await api.getWCMSOLProcessParameters();
     console.log(res3);
 })();
-//# sourceMappingURL=_test.js.map
+//# sourceMappingURL=demo.js.map

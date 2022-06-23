@@ -15,7 +15,7 @@
       "email": "moritz.heusinger@gmail.com"
     }
   ],
-  "homepage": "https://github.com/foxriver76/weisshaupt-api",
+  "homepage": "https://github.com/foxriver76/node-weishaupt-api",
   "license": "MIT",
   "keywords": [
     "weishaupt",

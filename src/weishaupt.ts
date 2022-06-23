@@ -48,11 +48,10 @@ export class Weishaupt {
         const body = {
             prot: 'coco',
             telegramm: [
-                [0, 0, 1, 1, 0, 0, 0, 0],
-                [10, 0, 1, 2, 0, 0, 0, 0],
-                [10, 0, 1, 12, 0, 0, 0, 0],
-                [10, 0, 1, 13, 0, 0, 0, 0],
-                [0, 0, 1, 5066, 0, 0, 0, 0]
+                [0, 0, 1, Info.Fehlercode, 0, 0, 0, 0],
+                [10, 0, 1, Info.Waermeanforderung, 0, 0, 0, 0],
+                [10, 0, 1, Info.Aussentemperatur, 0, 0, 0, 0],
+                [10, 0, 1, Info.Vorlauftemperatur, 0, 0, 0, 0]
             ]
         };
 
@@ -72,14 +71,14 @@ export class Weishaupt {
         const body = {
             prot: 'coco',
             telegramm: [
-                [10, 0, 1, 138, 0, 0, 0, 0],
-                [10, 0, 1, 2572, 0, 0, 0, 0],
-                [10, 0, 1, 2, 0, 0, 0, 0],
-                [10, 0, 1, 3101, 0, 0, 0, 0],
-                [10, 0, 1, 325, 0, 0, 0, 0],
-                [10, 0, 1, 12, 0, 0, 0, 0],
-                [10, 0, 1, 14, 0, 0, 0, 0],
-                [10, 0, 1, 373, 0, 0, 0, 0]
+                [10, 0, 1, Info.Laststellung, 0, 0, 0, 0],
+                [10, 0, 1, Info.GedaempfteAussentemperatur, 0, 0, 0, 0],
+                [10, 0, 1, Info.Waermeanforderung, 0, 0, 0, 0],
+                [10, 0, 1, Info.VorlauftemperaturEstb, 0, 0, 0, 0],
+                [10, 0, 1, Info.Abgastemperatur, 0, 0, 0, 0],
+                [10, 0, 1, Info.Aussentemperatur, 0, 0, 0, 0],
+                [10, 0, 1, Info.Warmwassertemperatur, 0, 0, 0, 0],
+                [10, 0, 1, Info.Betriebsphase, 0, 0, 0, 0]
             ]
         };
 
@@ -99,8 +98,12 @@ export class Weishaupt {
         const body = {
             prot: 'coco',
             telegramm: [
-                [3, 0, 1, 2601, 0, 0, 0],
-                [3, 0, 1, 130, 0, 0, 0]
+                [3, 0, 1, Info.T1Kollektor, 0, 0, 0],
+                [3, 0, 1, Info.Durchfluss, 0, 0, 0],
+                [3, 0, 1, Info.Leistung, 0, 0, 0],
+                [3, 0, 1, Info.T2SolarUnten, 0, 0, 0],
+                [3, 0, 1, Info.B10PufferOben, 0, 0, 0],
+                [3, 0, 1, Info.B11PufferUnten, 0, 0, 0]
             ]
         };
 
@@ -124,8 +127,7 @@ export class Weishaupt {
             const respObj: Partial<TelegramObject> = {};
             for (const i in telegramEntry) {
                 const attributeName = Type[i];
-                // @ts-expect-error fix it
-                respObj[attributeName] = telegramEntry[i];
+                respObj[attributeName as keyof TelegramObject] = telegramEntry[i];
             }
             response.push(respObj as TelegramObject);
         }
@@ -172,10 +174,14 @@ export class Weishaupt {
             case Info.Warmwassertemperatur:
             case Info.Abgastemperatur:
             case Info.Vorlauftemperatur:
+            case Info.T2SolarUnten:
+            case Info.B11PufferUnten:
+            case Info.B10PufferOben:
             case Info.T1Kollektor: {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 10;
             }
+            case Info.Leistung:
             case Info.Durchfluss: {
                 const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
                 return val / 100;
