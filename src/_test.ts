@@ -10,4 +10,9 @@ const api = new Weishaupt({ url: 'http://192.168.44.62' });
 
     const res2 = await api.getWTCGProcessParameters();
     console.log(res2);
+
+    console.log('----------------------');
+
+    const res3 = await api.getWCMSOLProcessParameters();
+    console.log(res3);
 })();

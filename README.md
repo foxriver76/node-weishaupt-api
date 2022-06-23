@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/npm/dm/weishaupt-api.svg)](https://www.npmjs.com/package/bring-shopping)
 ![Build Status](https://github.com/foxriver76/node-weishaupt-api/workflows/Test%20and%20Release/badge.svg)
 
-A node module for the local Weishaupt API entirely written in TypeScript.
+A node module for the local Weishaupt WCM-COM 1.0 home API entirely written in TypeScript.
 
 ## Disclaimer
 The developers of this module are in no way endorsed by or affiliated with
@@ -27,6 +27,11 @@ const api = new Weishaupt({ url: 'http://192.168.144.162' });
 
     const res2 = await api.getWTCGProcessParameters();
     console.log(res2);
+
+    console.log('----------------------');
+
+    const res3 = await api.getWCMSOLProcessParameters();
+    console.log(res3);
 })();
 
 ```

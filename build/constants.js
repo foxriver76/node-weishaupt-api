@@ -28,17 +28,23 @@ var Info;
     /** Take it as it is */
     Info[Info["Fehlercode"] = 1] = "Fehlercode";
     /** Divide by 10 */
-    Info[Info["W\u00E4rmeanforderung"] = 2] = "W\u00E4rmeanforderung";
+    Info[Info["Waermeanforderung"] = 2] = "Waermeanforderung";
     /** Divide by 10 */
-    Info[Info["Au\u00DFentemperatur"] = 12] = "Au\u00DFentemperatur";
+    Info[Info["Aussentemperatur"] = 12] = "Aussentemperatur";
     /** We need to calculate: 4 is 26 and 14 is 27, 24 is 28 */
     Info[Info["Vorlauftemperatur"] = 13] = "Vorlauftemperatur";
     /** Divide by 10 */
     Info[Info["Warmwassertemperatur"] = 14] = "Warmwassertemperatur";
+    /** Divide by 100 */
+    Info[Info["Durchfluss"] = 130] = "Durchfluss";
     /** As it is, it is percent */
     Info[Info["Laststellung"] = 138] = "Laststellung";
     /** Divide by 10 */
     Info[Info["Abgastemperatur"] = 325] = "Abgastemperatur";
+    /** Take as it is */
+    Info[Info["Betriebsphase"] = 373] = "Betriebsphase";
+    /** Divide by 10 */
+    Info[Info["T1Kollektor"] = 2601] = "T1Kollektor";
     /** Divide by 10 */
     Info[Info["GedaempfteAussentemperatur"] = 2572] = "GedaempfteAussentemperatur";
     /** Divide by 10 */

@@ -10,6 +10,9 @@ class Weishaupt {
     constructor(options) {
         this.url = options.url;
     }
+    /**
+     * Returns parameters present on Startsite
+     */
     async getHomeParameters() {
         const body = {
             prot: 'coco',
@@ -27,6 +30,9 @@ class Weishaupt {
         }
         return this._decodeTelegram(res.data.telegramm);
     }
+    /**
+     * Returns the parameters present on WTC-G Process Parameter Page
+     */
     async getWTCGProcessParameters() {
         const body = {
             prot: 'coco',
@@ -37,7 +43,25 @@ class Weishaupt {
                 [10, 0, 1, 3101, 0, 0, 0, 0],
                 [10, 0, 1, 325, 0, 0, 0, 0],
                 [10, 0, 1, 12, 0, 0, 0, 0],
-                [10, 0, 1, 14, 0, 0, 0, 0]
+                [10, 0, 1, 14, 0, 0, 0, 0],
+                [10, 0, 1, 373, 0, 0, 0, 0]
+            ]
+        };
+        const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
+        if (res.status !== 200) {
+            throw new Error(res.data);
+        }
+        return this._decodeTelegram(res.data.telegramm);
+    }
+    /**
+     * Returns the parameters from WCM-SOL Process Parameter Page
+     */
+    async getWCMSOLProcessParameters() {
+        const body = {
+            prot: 'coco',
+            telegramm: [
+                [3, 0, 1, 2601, 0, 0, 0],
+                [3, 0, 1, 130, 0, 0, 0]
             ]
         };
         const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
@@ -63,6 +87,11 @@ class Weishaupt {
         }
         return this._decodeTelegramValues(response);
     }
+    /**
+     * Decodes the values of an array of telegramObjects, then returns an array of FinalTelegramObjects
+     *
+     * @param telegramObjects Array matching the interface
+     */
     _decodeTelegramValues(telegramObjects) {
         const finalTelegramObjects = [];
         for (const telegramObject of telegramObjects) {
@@ -79,21 +108,33 @@ class Weishaupt {
         }
         return finalTelegramObjects;
     }
+    /**
+     * Data is extracted and converted according to its INFONR field
+     *
+     * @param telegramObject a single telegramObject
+     */
     _convertData(telegramObject) {
         switch (telegramObject.INFONR) {
             case constants_1.Info.VorlauftemperaturEstb:
             case constants_1.Info.GedaempfteAussentemperatur:
-            case constants_1.Info.Wärmeanforderung:
-            case constants_1.Info.Außentemperatur:
+            case constants_1.Info.Waermeanforderung:
+            case constants_1.Info.Aussentemperatur:
             case constants_1.Info.Warmwassertemperatur:
             case constants_1.Info.Abgastemperatur:
             case constants_1.Info.Vorlauftemperatur:
-                const test = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
-                return test / 10;
+            case constants_1.Info.T1Kollektor: {
+                const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return val / 10;
+            }
+            case constants_1.Info.Durchfluss: {
+                const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return val / 100;
+            }
             case constants_1.Info.Fehlercode:
             case constants_1.Info.Password:
             case constants_1.Info.StartsiteFooter:
             case constants_1.Info.Laststellung:
+            case constants_1.Info.Betriebsphase:
                 return telegramObject.DATA;
             default:
                 throw new Error(`Unknown Info: ${telegramObject.INFONR}`);

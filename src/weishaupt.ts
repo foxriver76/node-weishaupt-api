@@ -13,7 +13,7 @@ type Telegram = [
     Index: number,
     Protocol: number,
     data: number,
-    unknown: number
+    highByte: number
 ][];
 
 interface TelegramObject {
@@ -41,7 +41,10 @@ export class Weishaupt {
         this.url = options.url;
     }
 
-    async getHomeParameters() {
+    /**
+     * Returns parameters present on Startsite
+     */
+    async getHomeParameters(): Promise<TelegramObject[]> {
         const body = {
             prot: 'coco',
             telegramm: [
@@ -62,7 +65,10 @@ export class Weishaupt {
         return this._decodeTelegram(res.data.telegramm);
     }
 
-    async getWTCGProcessParameters() {
+    /**
+     * Returns the parameters present on WTC-G Process Parameter Page
+     */
+    async getWTCGProcessParameters(): Promise<TelegramObject[]> {
         const body = {
             prot: 'coco',
             telegramm: [
@@ -72,7 +78,29 @@ export class Weishaupt {
                 [10, 0, 1, 3101, 0, 0, 0, 0],
                 [10, 0, 1, 325, 0, 0, 0, 0],
                 [10, 0, 1, 12, 0, 0, 0, 0],
-                [10, 0, 1, 14, 0, 0, 0, 0]
+                [10, 0, 1, 14, 0, 0, 0, 0],
+                [10, 0, 1, 373, 0, 0, 0, 0]
+            ]
+        };
+
+        const res = await axios.post(`${this.url}/parameter.json`, body);
+
+        if (res.status !== 200) {
+            throw new Error(res.data);
+        }
+
+        return this._decodeTelegram(res.data.telegramm);
+    }
+
+    /**
+     * Returns the parameters from WCM-SOL Process Parameter Page
+     */
+    async getWCMSOLProcessParameters(): Promise<TelegramObject[]> {
+        const body = {
+            prot: 'coco',
+            telegramm: [
+                [3, 0, 1, 2601, 0, 0, 0],
+                [3, 0, 1, 130, 0, 0, 0]
             ]
         };
 
@@ -105,6 +133,11 @@ export class Weishaupt {
         return this._decodeTelegramValues(response);
     }
 
+    /**
+     * Decodes the values of an array of telegramObjects, then returns an array of FinalTelegramObjects
+     *
+     * @param telegramObjects Array matching the interface
+     */
     private _decodeTelegramValues(telegramObjects: TelegramObject[]): FinalTelegramObject[] {
         const finalTelegramObjects: FinalTelegramObject[] = [];
         for (const telegramObject of telegramObjects) {
@@ -125,21 +158,33 @@ export class Weishaupt {
         return finalTelegramObjects;
     }
 
+    /**
+     * Data is extracted and converted according to its INFONR field
+     *
+     * @param telegramObject a single telegramObject
+     */
     private _convertData(telegramObject: TelegramObject): number {
         switch (telegramObject.INFONR) {
             case Info.VorlauftemperaturEstb:
             case Info.GedaempfteAussentemperatur:
-            case Info.Wärmeanforderung:
-            case Info.Außentemperatur:
+            case Info.Waermeanforderung:
+            case Info.Aussentemperatur:
             case Info.Warmwassertemperatur:
             case Info.Abgastemperatur:
             case Info.Vorlauftemperatur:
-                const test = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
-                return test / 10;
+            case Info.T1Kollektor: {
+                const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return val / 10;
+            }
+            case Info.Durchfluss: {
+                const val = this._extractValue(telegramObject.DATA, telegramObject.HIGH_BYTE);
+                return val / 100;
+            }
             case Info.Fehlercode:
             case Info.Password:
             case Info.StartsiteFooter:
             case Info.Laststellung:
+            case Info.Betriebsphase:
                 return telegramObject.DATA;
             default:
                 throw new Error(`Unknown Info: ${telegramObject.INFONR}`);
@@ -152,7 +197,7 @@ export class Weishaupt {
      * @param lowByte
      * @param highByte
      */
-    private _extractValue(lowByte: number, highByte: number) {
+    private _extractValue(lowByte: number, highByte: number): number {
         let usValue;
 
         if (highByte <= 127) {
