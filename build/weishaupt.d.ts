@@ -1,3 +1,4 @@
+import { Command, Info, Protocol } from './constants';
 interface WeishauptOptions {
     url: string;
 }
@@ -11,6 +12,12 @@ interface TelegramObject {
     DATA: number;
     HIGH_BYTE: number;
 }
+interface FinalTelegramObject extends TelegramObject {
+    COMMAND: Command;
+    PROT: Protocol;
+    INFONR: Info;
+    UNIT?: 'string';
+}
 export declare class Weishaupt {
     /** URL of the API */
     private readonly url;
@@ -18,15 +25,15 @@ export declare class Weishaupt {
     /**
      * Returns parameters present on Startsite
      */
-    getHomeParameters(): Promise<TelegramObject[]>;
+    getHomeParameters(): Promise<FinalTelegramObject[]>;
     /**
      * Returns the parameters present on WTC-G Process Parameter Page
      */
-    getWTCGProcessParameters(): Promise<TelegramObject[]>;
+    getWTCGProcessParameters(): Promise<FinalTelegramObject[]>;
     /**
      * Returns the parameters from WCM-SOL Process Parameter Page
      */
-    getWCMSOLProcessParameters(): Promise<TelegramObject[]>;
+    getWCMSOLProcessParameters(): Promise<FinalTelegramObject[]>;
     /**
      * Decodes a Telegram given from API
      * @param telegram telegram as given as response from API

@@ -29,7 +29,7 @@ interface TelegramObject {
 
 interface FinalTelegramObject extends TelegramObject {
     COMMAND: Command;
-    PROTOCOL: Protocol;
+    PROT: Protocol;
     INFONR: Info;
     UNIT?: 'string';
 }
@@ -45,7 +45,7 @@ export class Weishaupt {
     /**
      * Returns parameters present on Startsite
      */
-    async getHomeParameters(): Promise<TelegramObject[]> {
+    async getHomeParameters(): Promise<FinalTelegramObject[]> {
         const body = {
             prot: 'coco',
             telegramm: [
@@ -68,7 +68,7 @@ export class Weishaupt {
     /**
      * Returns the parameters present on WTC-G Process Parameter Page
      */
-    async getWTCGProcessParameters(): Promise<TelegramObject[]> {
+    async getWTCGProcessParameters(): Promise<FinalTelegramObject[]> {
         const body = {
             prot: 'coco',
             telegramm: [
@@ -95,7 +95,7 @@ export class Weishaupt {
     /**
      * Returns the parameters from WCM-SOL Process Parameter Page
      */
-    async getWCMSOLProcessParameters(): Promise<TelegramObject[]> {
+    async getWCMSOLProcessParameters(): Promise<FinalTelegramObject[]> {
         const body = {
             prot: 'coco',
             telegramm: [
@@ -121,7 +121,7 @@ export class Weishaupt {
      * Decodes a Telegram given from API
      * @param telegram telegram as given as response from API
      */
-    private _decodeTelegram(telegram: Telegram): TelegramObject[] {
+    private _decodeTelegram(telegram: Telegram): FinalTelegramObject[] {
         const response: TelegramObject[] = [];
 
         for (const telegramEntry of telegram) {
@@ -144,23 +144,23 @@ export class Weishaupt {
     private _decodeTelegramValues(telegramObjects: TelegramObject[]): FinalTelegramObject[] {
         const finalTelegramObjects: FinalTelegramObject[] = [];
         for (const telegramObject of telegramObjects) {
-            const finalTelegramObj: Partial<FinalTelegramObject> = {};
-
-            finalTelegramObj.COMMAND = Command[telegramObject.COMMAND] as any;
-            finalTelegramObj.MODULTYP = telegramObject.COMMAND;
-            finalTelegramObj.DATA = this._convertData(telegramObject);
-            finalTelegramObj.BUSKENNUNG = telegramObject.BUSKENNUNG;
-            finalTelegramObj.PROT = Protocol[telegramObject.PROT] as any;
-            finalTelegramObj.INDEX = telegramObject.INDEX;
-            finalTelegramObj.INFONR = (Info[telegramObject.INFONR] as any) || telegramObject.INFONR;
-            finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
+            const finalTelegramObj: FinalTelegramObject = {
+                COMMAND: Command[telegramObject.COMMAND] as any,
+                MODULTYP: telegramObject.COMMAND,
+                DATA: this._convertData(telegramObject),
+                BUSKENNUNG: telegramObject.BUSKENNUNG,
+                PROT: Protocol[telegramObject.PROT] as any,
+                INDEX: telegramObject.INDEX,
+                INFONR: (Info[telegramObject.INFONR] as any) || telegramObject.INFONR,
+                HIGH_BYTE: telegramObject.HIGH_BYTE
+            };
 
             if (finalTelegramObj.INFONR! in Unit) {
                 // @ts-expect-error we have ensured it is in
                 finalTelegramObj.UNIT = Unit[finalTelegramObj.INFONR!];
             }
 
-            finalTelegramObjects.push(finalTelegramObj as FinalTelegramObject);
+            finalTelegramObjects.push(finalTelegramObj);
         }
 
         return finalTelegramObjects;

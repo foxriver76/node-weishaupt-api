@@ -97,15 +97,16 @@ class Weishaupt {
     _decodeTelegramValues(telegramObjects) {
         const finalTelegramObjects = [];
         for (const telegramObject of telegramObjects) {
-            const finalTelegramObj = {};
-            finalTelegramObj.COMMAND = constants_1.Command[telegramObject.COMMAND];
-            finalTelegramObj.MODULTYP = telegramObject.COMMAND;
-            finalTelegramObj.DATA = this._convertData(telegramObject);
-            finalTelegramObj.BUSKENNUNG = telegramObject.BUSKENNUNG;
-            finalTelegramObj.PROT = constants_1.Protocol[telegramObject.PROT];
-            finalTelegramObj.INDEX = telegramObject.INDEX;
-            finalTelegramObj.INFONR = constants_1.Info[telegramObject.INFONR] || telegramObject.INFONR;
-            finalTelegramObj.HIGH_BYTE = telegramObject.HIGH_BYTE;
+            const finalTelegramObj = {
+                COMMAND: constants_1.Command[telegramObject.COMMAND],
+                MODULTYP: telegramObject.COMMAND,
+                DATA: this._convertData(telegramObject),
+                BUSKENNUNG: telegramObject.BUSKENNUNG,
+                PROT: constants_1.Protocol[telegramObject.PROT],
+                INDEX: telegramObject.INDEX,
+                INFONR: constants_1.Info[telegramObject.INFONR] || telegramObject.INFONR,
+                HIGH_BYTE: telegramObject.HIGH_BYTE
+            };
             if (finalTelegramObj.INFONR in constants_1.Unit) {
                 // @ts-expect-error we have ensured it is in
                 finalTelegramObj.UNIT = constants_1.Unit[finalTelegramObj.INFONR];
