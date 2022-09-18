@@ -31,7 +31,7 @@ interface FinalTelegramObject extends TelegramObject {
     COMMAND: Command;
     PROT: Protocol;
     INFONR: Info;
-    UNIT?: 'string';
+    UNIT?: Unit;
 }
 
 export class Weishaupt {

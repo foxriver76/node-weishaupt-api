@@ -37,7 +37,7 @@ const api = new Weishaupt({ url: 'http://192.168.144.162' });
 ```
 
 ## Changelog
-### 0.1.1 (2022-09-18)
+### 0.1.2 (2022-09-18)
 * (foxriver76) fixed some types
 
 ### 0.1.0 (2022-09-18)

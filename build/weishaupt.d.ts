@@ -1,4 +1,4 @@
-import { Command, Info, Protocol } from './constants';
+import { Command, Info, Protocol, Unit } from './constants';
 interface WeishauptOptions {
     url: string;
 }
@@ -16,7 +16,7 @@ interface FinalTelegramObject extends TelegramObject {
     COMMAND: Command;
     PROT: Protocol;
     INFONR: Info;
-    UNIT?: 'string';
+    UNIT?: Unit;
 }
 export declare class Weishaupt {
     /** URL of the API */
