@@ -58,7 +58,7 @@ export class Weishaupt {
 
         const res = await axios.post(`${this.url}/parameter.json`, body);
 
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
 
@@ -85,7 +85,7 @@ export class Weishaupt {
 
         const res = await axios.post(`${this.url}/parameter.json`, body);
 
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
 
@@ -110,7 +110,7 @@ export class Weishaupt {
 
         const res = await axios.post(`${this.url}/parameter.json`, body);
 
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
 

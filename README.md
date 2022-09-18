@@ -37,6 +37,9 @@ const api = new Weishaupt({ url: 'http://192.168.144.162' });
 ```
 
 ## Changelog
+### 0.1.0 (2022-09-18)
+* (foxriver76) throw meaningful error if server is busy
+
 ### 0.0.2
 * (foxriver76) added units for the values
 

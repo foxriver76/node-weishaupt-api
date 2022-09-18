@@ -24,7 +24,7 @@ class Weishaupt {
             ]
         };
         const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
         return this._decodeTelegram(res.data.telegramm);
@@ -47,7 +47,7 @@ class Weishaupt {
             ]
         };
         const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
         return this._decodeTelegram(res.data.telegramm);
@@ -68,7 +68,7 @@ class Weishaupt {
             ]
         };
         const res = await axios_1.default.post(`${this.url}/parameter.json`, body);
-        if (res.status !== 200) {
+        if (res.status !== 200 || !res.data.telegramm) {
             throw new Error(res.data);
         }
         return this._decodeTelegram(res.data.telegramm);
